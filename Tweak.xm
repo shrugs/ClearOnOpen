@@ -19,11 +19,6 @@
     }
 }
 
-- (void)searchGesture:(id)arg1 changedOffset:(float)arg2 {
-    %log;
-    %orig;
-}
-
 %end
 %end
 
