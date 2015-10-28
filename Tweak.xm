@@ -1,65 +1,39 @@
-#import <iOS7/SpringBoard/SBSearchViewController.h>
-#import <iOS7/SpringBoard/SBSearchHeader.h>
-#import <iOS6/SpringBoard/SBSearchController.h>
-#import <iOS6/SpringBoard/SBSearchView.h>
+ //        DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
+ //                    Version 2, December 2004 
+ //
+ // Copyright (C) 2015 @wolfposd (Mordred666) 
+ //
+ // Everyone is permitted to copy and distribute verbatim or modified 
+ // copies of this license document, and changing it is allowed as long 
+ // as the name is changed. 
+ //
+ //            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
+ //   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
+ //
+ //  0. You just DO WHAT THE FUCK YOU WANT TO.
 
-#import <substrate.h>
 
-%group iOS7
-%hook SBSearchViewController
 
-- (void)searchGesture:(id)arg1 completedShowing:(BOOL)arg2 {
-    %orig;
-    if (!arg2) {
-        SBSearchHeader *h = MSHookIvar<SBSearchHeader *>(self, "_searchHeader");
-        if (h) {
-            [h searchField].text = @"";
-            [self _searchFieldEditingChanged];
-        }
-    }
-}
+@interface SPUISearchViewController : NSObject
 
-%end
-%end
+// called when view is showing
+- (void)_didFinishPresenting;
 
-%group iOS6
-static SBSearchController *sbSearchController;
-%hook SBSearchController
+// clear stuff
+- (void)_clearSearchResults;
+- (void)_searchFieldEditingChanged;
 
-- (id)init{
-    if ((self = %orig) != nil) {
-        //do stuff
-        sbSearchController = self;
-    }
-    return self;
-}
+@end
 
-%end
 
-%hook SBSearchView
-//make search bar's text nil on init
 
-- (void)addTableView
+%hook SPUISearchViewController
+
+- (void)_didFinishPresenting 
 {
-    [self searchBar].text = nil;
-    //- (void)searchBar:(id)arg1 textDidChange:(id)arg2;
-    [sbSearchController searchBar:self textDidChange:nil];
-    //- (void)setShowsKeyboard:(BOOL)arg1 animated:(BOOL)arg2;
-    [self setShowsKeyboard:YES animated:YES];
+    [self _clearSearchResults];
+    [self _searchFieldEditingChanged];
     %orig;
 }
-%end
 
 %end
-
-
-// %end
-
-%ctor {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
-        %init(iOS7);
-    } else {
-        %init(iOS6);
-    }
-
-}

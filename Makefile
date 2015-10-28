@@ -1,13 +1,15 @@
+DEBUG = 0
+RELEASE = 1
+PACKAGE_VERSION = $(THEOS_PACKAGE_BASE_VERSION)
 
-export THEOS_DEVICE_IP=192.168.1.7
 ARCHS = armv7 arm64
 include theos/makefiles/common.mk
 
 TWEAK_NAME = ClearOnOpen
 ClearOnOpen_FILES = Tweak.xm
-ClearOnOpen_FRAMEWORKS = UIKit
+ClearOnOpen_LDFLAGS += -Wl,-segalign,4000
+ClearOnOpen_CODESIGN_FLAGS = -S
 
-THEOS_BUILD_DIR = debs
 
 include $(THEOS_MAKE_PATH)/tweak.mk
 
