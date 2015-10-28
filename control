@@ -1,9 +1,9 @@
 Package: com.mattcmultimedia.clearonopen
 Name: ClearOnOpen
-Depends: mobilesubstrate, firmware (>= 6.0)
-Version: 2.0.1
+Depends: mobilesubstrate, firmware (>= 9.0)
+Version: 3.0.0
 Architecture: iphoneos-arm
-Description: automatically clear Spotlight results
-Maintainer: MattCMultimedia
-Author: MattCMultimedia
+Description: Automatically clear Spotlight results
+Maintainer: Mordred666
+Author: Mordred666
 Section: Tweaks
